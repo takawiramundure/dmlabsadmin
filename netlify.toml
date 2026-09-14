@@ -1,0 +1,38 @@
+[build]
+  command = "npm install --legacy-peer-deps && npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "22"
+  SECRETS_SCAN_ENABLED = "false"
+  SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
+  SECRETS_SCAN_OMIT_PATHS = "scripts/**,scratch/**,docs/**,.next/**,.netlify/**"
+  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = "nspc-web.firebaseapp.com"
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID = "nspc-web"
+  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET = "nspc-web.firebasestorage.app"
+  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = "272421073172"
+  NEXT_PUBLIC_FIREBASE_APP_ID = "1:272421073172:web:7250912c8b371828ff1201"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Content-Security-Policy = "default-src 'self' https://*.firebaseapp.com https://*.googleapis.com https://firebasestorage.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.firebaseapp.com https://*.googleapis.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.firebaseapp.com https://*.googleapis.com https://*.googleusercontent.com https://framerusercontent.com https://firebasestorage.googleapis.com https://images.unsplash.com; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://firebasestorage.googleapis.com;"
+
+[build.processing]
+  skip_processing = false
+
+[[redirects]]
+  from = "/__/auth/*"
+  to = "https://nspc-web.firebaseapp.com/__/auth/:splat"
+  status = 200
+  force = true
+
+
